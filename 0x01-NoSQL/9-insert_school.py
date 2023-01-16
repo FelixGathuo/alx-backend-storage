@@ -5,4 +5,5 @@ based on kwargs and Returns the new _id
 
 
 def insert_school(mongo_collection, **kwargs):
+    """ Returns a new id """
     return mongo_collection.insert_one(kwargs).inserted_id
