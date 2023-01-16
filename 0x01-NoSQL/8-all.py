@@ -2,6 +2,7 @@
 """ a Python function that lists all documents in a collection
 Return an empty list if no document in the collection
 """
+import pymongo
 
 
 def list_all(mongo_collection):
