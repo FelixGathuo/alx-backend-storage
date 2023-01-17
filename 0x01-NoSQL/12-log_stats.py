@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""  a Python script that provides some stats """
+"""a Python script that provides some stats"""
 from pymongo import MongoClient
 
 
