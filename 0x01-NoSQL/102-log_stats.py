@@ -23,9 +23,9 @@ def main():
     print("IPs:")
     logs = client.logs.nginx
     pipeline = [
-        { "$group": { "_id": "$ip", "count": { "$sum": 1 } } },
-        { "$sort": { "count": -1 } },
-        { "$limit": 10 }
+        {"$group": {"_id": "$ip", "count": {"$sum": 1}}},
+        {"$sort": {"count": -1}},
+        {"$limit": 10}
     ]
     top_ips = logs.aggregate(pipeline)
     for ip in top_ips:
