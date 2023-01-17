@@ -5,4 +5,4 @@ having a specific topic """
 
 def schools_by_topic(mongo_collection, topic):
     """ returns a list of topic """
-    return list(mongo_collection.find({topic}))
+    return mongo_collection.find({"topic": topic})
