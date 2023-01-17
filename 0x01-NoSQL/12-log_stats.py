@@ -1,17 +1,25 @@
 #!/usr/bin/env python3
-""" a Python script that provides some stats about
-Nginx logs stored in MongoDB:
+""" Log stats """
+import pymongo
 
-Database: logs
-Collection: nginx """
+def get_nginx_stats():
+    client = pymongo.MongoClient()
+    db = client["logs"]
+    nginx_collection = db["nginx"]
 
+    # Count the total number of documents in the collection
+    count = nginx_collection.count_documents({})
+    print(f"{count} logs")
+    print("Methods:")
 
-def log_stats(logs, nginx):
-    x = logs.nginx.count()
-    method_get = logs.nginx.count({"method": "GET"})
-    method_post = logs.nginx.count({"method": "POST"})
-    method_put = logs.nginx.count({"method": "PUT"})
-    method_patch = logs.nginx.count({"method": "PATCH"})
-    method_delete = logs.nginx.count({"method": "DELETE"})
-    status = logs.nginx.count({$and: [{"method": "GET"}, {"path": "/status"}]})
-    return "{} logs".format(x)"\n""Methods:\n\tmethod GET: {}".format(method_get)"\n\tmethod POST: {}".format(method_post)"\n\tmethod PUT: {}".format(method_put)"\n\tmethod PATCH: {}".format(method_patch)"\n\tmethod DELETE: {}".format(method_delete)"\n{} status check".format(status)
+    # Count the number of documents with each HTTP method
+    methods = ["GET", "POST", "PUT", "PATCH", "DELETE"]
+    for method in methods:
+        method_count = nginx_collection.count_documents({"method": method})
+        print(f"\t{method_count} with method={method}")
+
+    # Count the number of documents with method=GET and path=/status
+    get_status_count = nginx_collection.count_documents({"method": "GET", "path": "/status"})
+    print(f"\t{get_status_count} with method=GET and path=/status")
+
+get_nginx_stats()
